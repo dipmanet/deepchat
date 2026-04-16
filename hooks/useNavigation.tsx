@@ -15,7 +15,7 @@ const useNavigation = () => {
 	const { setCurrentChat } = useChatStore();
 	const { setShowDetails } = useShowDetailsStore();
 
-	const requestCount = useQuery(api.requests.count);
+	const requestCount = useQuery(api.requests.count) ?? 0;
 
 	const paths = React.useMemo(
 		() => [
