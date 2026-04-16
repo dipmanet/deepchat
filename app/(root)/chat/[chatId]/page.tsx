@@ -19,8 +19,9 @@ const ChatPage = () => {
 	console.log("test chat", chat);
 
 	useEffect(() => {
-		return setCurrentChat(chat ? chat : null);
-	}, [chat, setCurrentChat]);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		setCurrentChat(chat as any);
+	}, [chat]);
 
 	return (
 		<div className="w-full h-full flex flex-col justify-between">

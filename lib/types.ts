@@ -37,8 +37,8 @@ export type ChatItemType = {
 	name: string | undefined;
 	image: string | null;
 	isGroup: boolean;
-	friendId: Id<"users">;
-	lastMessage: MessageType | undefined;
+	friendId: Id<"users"> | null;
+	lastMessage: MessageType | null;
 	updatedAt: number;
 };
 

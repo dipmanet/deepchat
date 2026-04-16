@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 import { User } from "lucide-react";
 
 type Props = {
-	status: "online" | "offline";
+	status?: "online" | "offline";
 	imageUrl?: string;
 	className?: string;
 	showOnline?: boolean;
 };
 
-const AppAvatar = ({ imageUrl, status, showOnline = false, className = "" }: Props) => {
+const AppAvatar = ({ imageUrl, status = "offline", showOnline = false, className = "" }: Props) => {
 	return (
 		<Avatar size={"lg"} className={cn("!size-13", className)}>
 			<AvatarImage
