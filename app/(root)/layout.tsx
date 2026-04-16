@@ -1,22 +1,28 @@
 "use client";
-import MainWrapper from "@/components/shared/MainWrapper";
+import MainWrapper from "@/components/shared/layouts/MainWrapper";
 import Navbar from "@/components/shared/Navbar";
-import SidebarWrapper from "@/components/shared/SidebarWrapper";
+import SidebarWrapper from "@/components/shared/layouts/SidebarWrapper";
+import DetailsWrapper from "@/components/shared/layouts/DetailsWrapper";
 import useNavigation from "@/hooks/useNavigation";
 import React from "react";
+import Detailsbar from "@/components/shared/sidebars/Detailsbar";
+// import { usePresence } from "@/hooks/usePresence";
 
 type Props = React.PropsWithChildren<object>;
 
 const Layout = ({ children }: Props) => {
 	const { activeSidebar } = useNavigation();
+	// usePresence();
+
 	return (
-		<div className="h-full w-full flex">
+		<div className="h-screen w-full flex flex-col-reverse lg:flex-row">
 			<Navbar />
-			<div className="h-screen w-full flex flex-col lg:flex-row gap-2 p-1">
-				<SidebarWrapper>
-					{activeSidebar?.sidebarComponent ?? <div className="p-4">Select a section</div>}
-				</SidebarWrapper>
+			<div className="h-full w-full flex flex-col lg:flex-row">
+				<SidebarWrapper>{activeSidebar?.sidebarComponent}</SidebarWrapper>
 				<MainWrapper>{children}</MainWrapper>
+				<DetailsWrapper>
+					<Detailsbar />
+				</DetailsWrapper>
 			</div>
 		</div>
 	);

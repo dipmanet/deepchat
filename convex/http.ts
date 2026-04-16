@@ -32,7 +32,7 @@ const handleClerkWebhook = httpAction(async (ctx, req) => {
 
 	switch (event.type) {
 		case "user.created":
-			const user = await ctx.runQuery(internal.user.get, {
+			const user = await ctx.runQuery(internal.user.getClerk, {
 				clerkId: event.data.id,
 			});
 			if (user) {

@@ -1,15 +1,23 @@
 "use client";
 
-import ChatSidebar from "@/components/shared/ChatSidebar";
-import FriendsSidebar from "@/components/shared/FriendsSidebar";
+import ChatSidebar from "@/components/shared/sidebars/ChatSidebar";
+import FriendsSidebar from "@/components/shared/sidebars/FriendsSidebar";
+import { api } from "@/convex/_generated/api";
+import { useChatStore, useShowDetailsStore } from "@/lib/store";
+import { useQuery } from "convex/react";
 import { MessageSquare, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
-import React, { useMemo } from "react";
+import React from "react";
 
 const useNavigation = () => {
 	const pathname = usePathname();
 
-	const paths = useMemo(
+	const { setCurrentChat } = useChatStore();
+	const { setShowDetails } = useShowDetailsStore();
+
+	const requestCount = useQuery(api.requests.count);
+
+	const paths = React.useMemo(
 		() => [
 			{
 				name: "Conversations",
@@ -17,6 +25,7 @@ const useNavigation = () => {
 				icon: <MessageSquare />,
 				active: pathname.startsWith("/chat"),
 				sidebarComponent: <ChatSidebar />,
+				count: 0,
 			},
 			{
 				name: "Friends",
@@ -24,10 +33,16 @@ const useNavigation = () => {
 				icon: <Users />,
 				active: pathname.startsWith("/friends"),
 				sidebarComponent: <FriendsSidebar />,
+				count: requestCount || 0,
 			},
 		],
-		[pathname],
+		[pathname, requestCount],
 	);
+
+	React.useEffect(() => {
+		setCurrentChat(null);
+		setShowDetails(false);
+	}, [paths]);
 
 	const activeSidebar = paths.find((path) => pathname.startsWith(path.href)) || paths[0];
 	const showSidebarMobile = activeSidebar.href === pathname;

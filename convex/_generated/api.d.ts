@@ -9,9 +9,14 @@
  */
 
 import type * as _utils from "../_utils.js";
+import type * as blocks from "../blocks.js";
+import type * as chatMembers from "../chatMembers.js";
+import type * as chats from "../chats.js";
+import type * as friends from "../friends.js";
 import type * as http from "../http.js";
+import type * as messages from "../messages.js";
+import type * as presence from "../presence.js";
 import type * as requests from "../requests.js";
-import type * as tasks from "../tasks.js";
 import type * as user from "../user.js";
 
 import type {
@@ -22,9 +27,14 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   _utils: typeof _utils;
+  blocks: typeof blocks;
+  chatMembers: typeof chatMembers;
+  chats: typeof chats;
+  friends: typeof friends;
   http: typeof http;
+  messages: typeof messages;
+  presence: typeof presence;
   requests: typeof requests;
-  tasks: typeof tasks;
   user: typeof user;
 }>;
 
