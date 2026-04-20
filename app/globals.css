@@ -2,13 +2,16 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Syne:wght@400..800&display=swap"); */
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
 	--font-sans: var(--font-sans);
 	--font-mono: var(--font-geist-mono);
+	--font-syne: var(--font-syne);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -51,6 +54,11 @@
 }
 
 :root {
+	--sans: [ "Open Sans", sans];
+	--mono: [ "Geist Mono", sans];
+	--syne: [ "Syne", sans];
+	--font-mono: var(--font-geist-mono);
+	--font-syne: var(--font-syne);
 	--radius: 0.625rem;
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.145 0 0);
@@ -88,6 +96,9 @@
 }
 
 .dark {
+	--sans: [ "Open Sans", sans];
+	--mono: [ "Geist Mono", sans];
+	--syne: [ "Syne", sans];
 	--background: oklch(21.564% 0.03574 275.779);
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);

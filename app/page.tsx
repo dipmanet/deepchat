@@ -1,11 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { SignInButton, SignUpButton, useAuth } from "@clerk/nextjs";
-// import Image from "next/image";
-// import Logo from "@/public/deepchat_logo.svg";
-// import { AuthLoading } from "convex/react";
-// import { LucideLoaderPinwheel } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 import HeroSection from "@/components/landingpage/HeroSection";
 import PricingSection from "@/components/landingpage/PricingSection";
 import ShowcaseSection from "@/components/landingpage/ShowcaseSection";

@@ -1,6 +1,8 @@
 "use client";
 import { SignInButton } from "@clerk/nextjs";
+import Image from "next/image";
 import { useState, useEffect } from "react";
+import Logo from "@/public/deepchat_logo.svg";
 
 const navLinks = ["Features", "Pricing", "Integrations", "Resources", "Enterprise"];
 
@@ -25,19 +27,10 @@ export default function Navbar() {
 			<div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 				{/* Logo */}
 				<a href="#" className="flex items-center gap-2.5 group">
-					<div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-600/30">
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-							<path
-								d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-								fill="white"
-							/>
-						</svg>
+					<div className="w-8 h-8 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<Image src={Logo} alt="logo" className="" />
 					</div>
-					<span
-						className="text-lg font-bold tracking-tight"
-						style={{ fontFamily: "Syne, sans-serif" }}>
-						DeepChat
-					</span>
+					<span className="text-lg font-bold tracking-tight font-syne">DeepChat</span>
 				</a>
 
 				{/* Desktop Nav Links */}
@@ -96,12 +89,16 @@ export default function Navbar() {
 						</a>
 					))}
 					<div className="flex gap-3 pt-2 border-t border-gray-100">
-						<a href="#" className="text-sm font-medium text-gray-600 py-2">
-							Sign in
-						</a>
-						<a href="#" className="btn-primary text-sm px-4 py-2 ml-auto">
-							Start Free →
-						</a>
+						<SignInButton>
+							<div className="btn-outline px-4 py-2 ml-auto text-sm font-medium  cursor-pointer">
+								Sign in
+							</div>
+						</SignInButton>
+						{/* <SignInButton>
+							<div className="btn-primary text-sm px-4 py-2 ml-auto text-sm font-medium text-gray-200 cursor-pointer">
+								Free Trial
+							</div>
+						</SignInButton> */}
 					</div>
 				</div>
 			</div>
