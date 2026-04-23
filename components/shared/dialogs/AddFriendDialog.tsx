@@ -53,7 +53,7 @@ const AddFriendDialog = () => {
 			<Tooltip>
 				<TooltipTrigger>
 					<DialogTrigger asChild>
-						<div className={buttonVariants({ size: "icon" })}>
+						<div className={buttonVariants({ variant: "outline", size: "icon" })}>
 							<UserPlus />
 						</div>
 					</DialogTrigger>

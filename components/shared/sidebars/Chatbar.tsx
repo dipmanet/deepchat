@@ -15,7 +15,7 @@ const ChatPage = () => {
 	const chatId = typeof rawChatId === "string" ? (rawChatId as Id<"chats">) : null;
 	const chat = useQuery(api.chats.get, chatId ? { id: chatId } : "skip");
 
-	const { setCurrentChat } = useChatStore();
+	const { currentChat, setCurrentChat } = useChatStore();
 	console.log("test chat", chat);
 
 	useEffect(() => {
@@ -25,9 +25,13 @@ const ChatPage = () => {
 
 	return (
 		<div className="w-full h-full flex flex-col justify-between">
-			<Header />
-			{chatId ? <ChatBody chatId={chatId} /> : null}
-			{chatId ? <ChatInput chatId={chatId} /> : null}
+			{currentChat ? (
+				<>
+					<Header />
+					{chatId ? <ChatBody chatId={chatId} /> : null}
+					{chatId ? <ChatInput chatId={chatId} /> : null}
+				</>
+			) : null}
 		</div>
 	);
 };

@@ -1,9 +1,7 @@
 import React from "react";
 
-type Props = {};
-
-const FriendsPage = (props: Props) => {
-	return <div>FriendsPage</div>;
+const page = () => {
+	return <div>page</div>;
 };
 
-export default FriendsPage;
+export default page;

@@ -4,8 +4,8 @@ import { ConvexError } from "convex/values";
 import { getUserByClerkId } from "./_utils";
 
 export const getAll = query({
-	args: {},
-	handler: async (ctx) => {
+	args: { search: v.optional(v.string()) },
+	handler: async (ctx, args) => {
 		const identity = await ctx.auth.getUserIdentity();
 		if (!identity) throw new ConvexError("Unauthorized");
 
@@ -34,9 +34,19 @@ export const getAll = query({
 			}),
 		);
 
-		return friends
-			.filter((friendship) => friendship !== null)
-			.sort((a, b) => b.createdAt - a.createdAt);
+		// 3. Clean nulls
+		let result = friends.filter(Boolean);
+
+		// 4. Apply search
+		const search = args.search?.toLowerCase().trim();
+		if (search) {
+			result = result.filter((friend) =>
+				(friend!.friend.username || "").toLowerCase().includes(search),
+			);
+		}
+
+		// 5. Sort
+		return result.sort((a: any, b: any) => b.createdAt - a.createdAt);
 	},
 });
 

@@ -6,6 +6,7 @@ import DetailsWrapper from "@/components/shared/layouts/DetailsWrapper";
 import useNavigation from "@/hooks/useNavigation";
 import React from "react";
 import Detailsbar from "@/components/shared/sidebars/Detailsbar";
+import Chatbar from "@/components/shared/sidebars/Chatbar";
 // import { usePresence } from "@/hooks/usePresence";
 
 type Props = React.PropsWithChildren<object>;
@@ -19,7 +20,9 @@ const Layout = ({ children }: Props) => {
 			<Navbar />
 			<div className="h-full w-full flex flex-col lg:flex-row">
 				<SidebarWrapper>{activeSidebar?.sidebarComponent}</SidebarWrapper>
-				<MainWrapper>{children}</MainWrapper>
+				<MainWrapper>
+					<Chatbar />
+				</MainWrapper>
 				<DetailsWrapper>
 					<Detailsbar />
 				</DetailsWrapper>

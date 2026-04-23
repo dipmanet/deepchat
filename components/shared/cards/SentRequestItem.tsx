@@ -44,9 +44,6 @@ const SentRequestItem = ({ requestId, receiver }: Props) => {
 					<p className="text-sm text-muted-foreground">{email}</p>
 				</div>
 				<div className="flex flex-col gap-2 items-end">
-					<div>
-						<p>Request sent.</p>
-					</div>
 					<Button
 						size={"icon"}
 						variant={"destructive"}

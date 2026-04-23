@@ -1,7 +1,7 @@
 "use client";
 
 import ChatSidebar from "@/components/shared/sidebars/ChatSidebar";
-import FriendsSidebar from "@/components/shared/sidebars/FriendsSidebar";
+import FriendsSidebar from "@/components/shared/sidebars/RequestsSidebar";
 import { api } from "@/convex/_generated/api";
 import { useChatStore, useShowDetailsStore } from "@/lib/store";
 import { useQuery } from "convex/react";

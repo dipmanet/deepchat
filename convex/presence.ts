@@ -28,7 +28,7 @@ export const getByUser = query({
 
 		return {
 			...presence,
-			status: isStale ? "offline" : "online",
+			// status: isStale ? "offline" : "online",
 		};
 	},
 });

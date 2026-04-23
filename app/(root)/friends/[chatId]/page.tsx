@@ -1,9 +1,7 @@
-"use client";
-import { useParams } from "next/navigation";
+import React from "react";
 
-const ChatPage = () => {
-	const { chatId } = useParams();
-	return <div>Chat Page for user: {chatId}</div>;
+const page = () => {
+	return <div>page</div>;
 };
 
-export default ChatPage;
+export default page;
