@@ -76,7 +76,11 @@ const FriendDetails = ({ chat }: { chat: ChatType }) => {
 				<h3 className="font-semibold">{friend?.username}</h3>
 				<p className="text-sm">{friend?.email}</p>
 			</div>
-			{status === "online" && <div className="text-center">Active {lastSeenLabel} </div>}
+			{status === "online" ? (
+				<div className="text-center text-green-500">Online</div>
+			) : (
+				<div className="text-center">Active {lastSeenLabel} </div>
+			)}
 
 			<div className="flex gap-4 justify-center">
 				{isFriend ? (

@@ -10,12 +10,14 @@ export type UserType = {
 };
 
 export type MessageType = {
+	sender: UserType | null;
+	self: boolean;
 	_id: Id<"messages">;
 	_creationTime: number;
 	content?: string | undefined;
 	attachmentUrl?: string | undefined;
 	editedAt?: number | undefined;
-	type: "audio" | "video" | "image" | "text" | "file";
+	type: "audio" | "video" | "image" | "text" | "file" | "system";
 	createdAt: number;
 	chatId: Id<"chats">;
 	senderId: Id<"users">;

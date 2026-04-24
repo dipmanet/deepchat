@@ -1,12 +1,12 @@
 import AppAvatar from "@/components/shared/cards/AppAvatar";
 import { Button } from "@/components/ui/button";
 import { useGroupStatus, useUserStatus } from "@/hooks/useUserStatus";
-import { useChatStore, useShowDetailsStore } from "@/lib/store";
+import { useShowDetailsStore } from "@/lib/store";
+import { ChatType } from "@/lib/types";
 import { ChevronLeft, ChevronRight, PhoneIcon, VideoIcon } from "lucide-react";
 
-const ChatHeader = () => {
+const ChatHeader = ({ currentChat }: { currentChat: ChatType }) => {
 	const { showDetails, setShowDetails } = useShowDetailsStore();
-	const { currentChat } = useChatStore();
 
 	const { status: userStatus } = useUserStatus(currentChat?.friend?._id || null);
 	const { status: groupStatus } = useGroupStatus(currentChat?.lastActiveAt);

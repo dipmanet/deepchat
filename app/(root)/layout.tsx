@@ -5,8 +5,8 @@ import SidebarWrapper from "@/components/shared/layouts/SidebarWrapper";
 import DetailsWrapper from "@/components/shared/layouts/DetailsWrapper";
 import useNavigation from "@/hooks/useNavigation";
 import React from "react";
-import Detailsbar from "@/components/shared/sidebars/Detailsbar";
-import Chatbar from "@/components/shared/sidebars/Chatbar";
+import Detailsbar from "@/components/shared/details/Detailsbar";
+import Chatbar from "@/components/shared/main/Chatbar";
 // import { usePresence } from "@/hooks/usePresence";
 
 type Props = React.PropsWithChildren<object>;

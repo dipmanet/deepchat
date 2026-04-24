@@ -66,6 +66,7 @@ export default defineSchema({
 			v.literal("file"),
 			v.literal("video"),
 			v.literal("audio"),
+			v.literal("system"),
 		),
 		attachmentUrl: v.optional(v.string()),
 		createdAt: v.number(),

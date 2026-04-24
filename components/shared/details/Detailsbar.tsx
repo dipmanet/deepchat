@@ -3,8 +3,8 @@ import { useChatStore, useShowDetailsStore } from "@/lib/store";
 import AppAvatar from "../cards/AppAvatar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import FriendDetails from "../details/FriendDetails";
-import GroupDetails from "../details/GroupDetails";
+import FriendDetails from "./FriendDetails";
+import GroupDetails from "./GroupDetails";
 import { useGroupStatus, useUserStatus } from "@/hooks/useUserStatus";
 
 const Detailsbar = () => {

@@ -1,36 +1,9 @@
-import { Id } from "@/convex/_generated/dataModel";
 import { cn, formatTime } from "@/lib/utils";
 import Image from "next/image";
 import { File, FileSpreadsheet, FileText, Check, CheckCheck } from "lucide-react";
 import { LeftTail, RightTail } from "@/assets/tails";
 import AppAvatar from "./AppAvatar";
-
-type Props = {
-	message: {
-		sender: {
-			_id: Id<"users">;
-			_creationTime: number;
-			username: string;
-			imageUrl: string;
-			clerkId: string;
-			email: string;
-		} | null;
-		self: boolean;
-		_id: Id<"messages">;
-		_creationTime: number;
-		content?: string | undefined;
-		attachmentUrl?: string | undefined;
-		attachmentName?: string | undefined;
-		attachmentSize?: string | undefined;
-		editedAt?: number | undefined;
-		type: "text" | "image" | "file" | "video" | "audio";
-		createdAt: number;
-		chatId: Id<"chats">;
-		senderId: Id<"users">;
-		deleted: boolean;
-		read?: boolean;
-	};
-};
+import { MessageType } from "@/lib/types";
 
 function getFileInfo(filename?: string) {
 	const ext = filename?.split(".").pop()?.toLowerCase();
@@ -49,7 +22,7 @@ function getFileInfo(filename?: string) {
 	}
 }
 
-const MessageItem = ({ message }: Props) => {
+const MessageItem = ({ message }: { message: MessageType }) => {
 	const { sender, content, type, attachmentUrl, attachmentName, attachmentSize, self, read } =
 		message;
 
@@ -58,7 +31,7 @@ const MessageItem = ({ message }: Props) => {
 	const selfBubbleClass = "text-primary";
 	const otherBubbleClass = "text-gray-100";
 
-	return (
+	return type !== "system" ? (
 		<div
 			className={cn(
 				"flex gap-2.5 items-end w-full px-4 py-0.5",
@@ -173,7 +146,22 @@ const MessageItem = ({ message }: Props) => {
 							))}
 					</div>
 				)}
+				{type === "system" && (
+					<div className="w-full flex items-center justify-center gap-0.5 px-1">
+						<span className="text-[10px] text-gray-400">{formatTime(message._creationTime)}</span>
+						<p className="text-[14px] leading-[1.45] pr-14 whitespace-pre-wrap break-words">
+							{content}
+						</p>
+					</div>
+				)}
 			</div>
+		</div>
+	) : (
+		<div className="w-full flex items-center justify-center gap-0.5 px-1">
+			<span className="text-[10px] text-secondary-foreground">
+				{formatTime(message._creationTime)}
+			</span>
+			<p className="text-[14px] leading-[1.45] pr-14 whitespace-pre-wrap break-words">{content}</p>
 		</div>
 	);
 };

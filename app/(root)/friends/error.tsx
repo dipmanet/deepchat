@@ -9,7 +9,6 @@ const ChatErrorPage = () => {
 	useEffect(() => {
 		router.replace("/friends");
 	}, [router]);
-
 	return null;
 };
 
