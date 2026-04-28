@@ -2,10 +2,10 @@
 import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import Logo from "@/public/deepchat_logo.svg";
 import { Button } from "../ui/button";
 import { ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Logo from "@/assets/Logo";
 
 const navLinks = ["Features", "Pricing", "Integrations", "Resources", "Enterprise"];
 
@@ -30,13 +30,13 @@ export default function Navbar() {
 			}`}>
 			<div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 				{/* Logo */}
-				<a href="#" className="flex items-center gap-2.5 group">
+				<a
+					href="#"
+					className={`flex items-center gap-2.5 group ${scrolled ? "text-primary" : "text-white"}`}>
 					<div className="w-8 h-8 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-						<Image src={Logo} alt="logo" className="" />
+						<Logo />
 					</div>
-					<span className="text-background text-lg font-bold tracking-tight font-syne">
-						DeepChat
-					</span>
+					<span className=" text-lg font-bold tracking-tight font-syne">DeepChat</span>
 				</a>
 
 				{/* Desktop Nav Links */}
@@ -47,7 +47,13 @@ export default function Navbar() {
 							href="#"
 							onClick={() => setActiveLink(link)}
 							className={`nav-link text-sm font-medium transition-colors duration-200 ${
-								activeLink === link ? "text-background" : "text-gray-300 hover:text-background"
+								activeLink === link
+									? scrolled
+										? "text-primary"
+										: "text-background"
+									: scrolled
+										? "text-gray-300 hover:text-primary"
+										: "text-gray-300 hover:text-background"
 							}`}>
 							{link}
 						</a>
@@ -55,7 +61,22 @@ export default function Navbar() {
 				</div>
 
 				{/* CTA Buttons */}
-				<div className="hidden md:flex items-center gap-3">
+				<div className="flex items-center gap-3">
+					{/* Mobile Menu Toggle */}
+					<button
+						className="md:hidden flex flex-col gap-1.5 p-2"
+						onClick={() => setMenuOpen(!menuOpen)}
+						aria-label="Toggle menu">
+						<span
+							className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
+						/>
+						<span
+							className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
+						/>
+						<span
+							className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+						/>
+					</button>
 					<Show when={"signed-out"}>
 						<SignInButton>
 							<button className="btn-primary bg-background px-4 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">
@@ -71,22 +92,6 @@ export default function Navbar() {
 						</Button>
 					</Show>
 				</div>
-
-				{/* Mobile Menu Toggle */}
-				<button
-					className="md:hidden flex flex-col gap-1.5 p-2"
-					onClick={() => setMenuOpen(!menuOpen)}
-					aria-label="Toggle menu">
-					<span
-						className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
-					/>
-					<span
-						className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
-					/>
-					<span
-						className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
-					/>
-				</button>
 			</div>
 
 			{/* Mobile Menu */}
@@ -103,22 +108,6 @@ export default function Navbar() {
 							{link}
 						</a>
 					))}
-					<div className="flex gap-3 pt-2 border-t border-gray-100">
-						<Show when={"signed-out"}>
-							<SignInButton>
-								<button className="btn-primary bg-background px-4 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">
-									Sign In
-								</button>
-							</SignInButton>
-						</Show>
-						<Show when={"signed-in"}>
-							<UserButton />
-							<Button variant="secondary">
-								<p>Chat</p>
-								<ChevronRightIcon className="ml-2" />
-							</Button>
-						</Show>
-					</div>
 				</div>
 			</div>
 		</nav>

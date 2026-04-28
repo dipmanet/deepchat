@@ -5,7 +5,7 @@ import useNavigation from "@/hooks/useNavigation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "@/public/deepchat_logo.svg";
+import Logo from "@/assets/Logo";
 import { UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { Badge } from "../ui/badge";
@@ -14,9 +14,11 @@ import { cn } from "@/lib/utils";
 const Navbar = () => {
 	const { paths } = useNavigation();
 	return (
-		<div className="fixed bottom-0 lg:static lg:bottom-auto h-16 lg:h-screen w-full lg:w-16 bg-background dark:bg-primary-backround z-1000">
+		<div className="fixed bottom-0 lg:static lg:bottom-auto h-16 lg:h-screen w-full lg:w-16 bg-background dark:bg-primary-backround z-20">
 			<div className="h-full w-full py-4 border flex lg:flex-col gap-8 justify-between items-center">
-				<Image src={Logo} alt="logo" className="hidden lg:flex" />
+				<Link href="/" className="flex items-center gap-2.5">
+					<Logo className="hidden lg:block text-primary" />
+				</Link>
 				<div className="h-full w-full flex lg:flex-col items-center">
 					<nav className="h-full w-full lg:overflow-y-auto">
 						<ul className="h-full flex lg:flex-col justify-evenly lg:justify-start items-center gap-4">
