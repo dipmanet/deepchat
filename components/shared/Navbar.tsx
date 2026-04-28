@@ -14,8 +14,8 @@ import { cn } from "@/lib/utils";
 const Navbar = () => {
 	const { paths } = useNavigation();
 	return (
-		<div className="fixed bottom-0 lg:static lg:bottom-auto h-16 lg:h-screen w-full lg:w-16 bg-background dark:bg-primary-backround ">
-			<div className="h-full w-full py-4 border shadow-smf flex lg:flex-col gap-8 justify-between items-center">
+		<div className="fixed bottom-0 lg:static lg:bottom-auto h-16 lg:h-screen w-full lg:w-16 bg-background dark:bg-primary-backround z-1000">
+			<div className="h-full w-full py-4 border flex lg:flex-col gap-8 justify-between items-center">
 				<Image src={Logo} alt="logo" className="hidden lg:flex" />
 				<div className="h-full w-full flex lg:flex-col items-center">
 					<nav className="h-full w-full lg:overflow-y-auto">

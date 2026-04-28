@@ -43,7 +43,8 @@ const handleClerkWebhook = httpAction(async (ctx, req) => {
 
 			await ctx.runMutation(internal.user.create, {
 				clerkId: event.data.id,
-				username: `${event.data.first_name} ${event.data.last_name}`,
+				username:
+					event.data.username || `${event.data.first_name} ${event.data.last_name}` || "unknown",
 				email: event.data.email_addresses[0].email_address,
 				imageUrl: event.data.image_url,
 			});

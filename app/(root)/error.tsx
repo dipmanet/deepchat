@@ -1,16 +1,29 @@
-"use client";
+"use client"; // Error boundaries must be Client Components
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
-const ChatErrorPage = () => {
-	const router = useRouter();
-
+export default function ErrorPage({
+	error,
+	unstable_retry,
+}: {
+	error: Error & { digest?: string };
+	unstable_retry: () => void;
+}) {
 	useEffect(() => {
-		router.replace("/friends");
-	}, [router]);
+		// Log the error to an error reporting service
+		console.error(error);
+	}, [error]);
 
-	return null;
-};
-
-export default ChatErrorPage;
+	return (
+		<div>
+			<h2>Something went wrong!</h2>
+			<button
+				onClick={
+					// Attempt to recover by re-fetching and re-rendering the segment
+					() => unstable_retry()
+				}>
+				Try again
+			</button>
+		</div>
+	);
+}

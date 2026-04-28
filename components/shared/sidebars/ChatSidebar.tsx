@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import { MessageSquarePlusIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import EmptyState from "../EmptyState";
 
 const ChatSidebar = () => {
 	const [searchText, setSearchText] = React.useState("");
@@ -37,8 +38,8 @@ const ChatSidebar = () => {
 					chats?.length > 0 ? (
 						chats?.map((chat) => <ChatItem key={chat._id} chat={chat} />)
 					) : (
-						<div>
-							<p>No chat available</p>
+						<div className="flex items-center justify-center h-full">
+							<EmptyState />
 						</div>
 					)
 				) : (

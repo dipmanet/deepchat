@@ -110,20 +110,17 @@ export function RecentChats({ chats }: { chats: ChatItemType[] }) {
 // ─── NewChatButton ─────────────────────────────────────────────────────────
 
 export function NewChatButton() {
-	const router = useRouter();
 	return (
 		<AddChatDialog showTooltip={false}>
 			<div
-				onClick={() => router.push("/chat/new")}
-				className="
-        w-full flex items-center justify-center gap-2
-        sm:w-auto sm:px-5
-        px-4 py-3 sm:py-2.5
-        rounded-xl border border-border bg-background
-        hover:bg-muted hover:border-foreground/25
-        active:scale-[0.98]
-        transition-all text-sm font-medium touch-manipulation
-        ">
+				className="w-full flex items-center justify-center gap-2
+				sm:w-auto sm:px-5
+				px-4 py-3 sm:py-2.5
+				rounded-xl border border-border bg-background
+				hover:bg-muted hover:border-foreground/25
+				active:scale-[0.98]
+				transition-all text-sm font-medium touch-manipulation
+				">
 				<Plus size={14} />
 				New conversation
 			</div>

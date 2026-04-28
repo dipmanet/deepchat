@@ -1,7 +1,4 @@
 "use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
 import HeroSection from "@/components/landingpage/HeroSection";
 import PricingSection from "@/components/landingpage/PricingSection";
 import ShowcaseSection from "@/components/landingpage/ShowcaseSection";
@@ -12,15 +9,6 @@ import Navbar from "@/components/landingpage/Navbar";
 import "./page.css";
 
 export default function Home() {
-	const router = useRouter();
-	const { isSignedIn } = useAuth();
-
-	useEffect(() => {
-		if (isSignedIn) {
-			router.push("/chat");
-		}
-	}, [isSignedIn]);
-
 	return (
 		<>
 			<main className="min-h-screen">

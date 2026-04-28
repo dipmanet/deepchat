@@ -11,6 +11,7 @@
 import type * as _utils from "../_utils.js";
 import type * as chatMembers from "../chatMembers.js";
 import type * as chats from "../chats.js";
+import type * as files from "../files.js";
 import type * as friends from "../friends.js";
 import type * as http from "../http.js";
 import type * as messages from "../messages.js";
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   _utils: typeof _utils;
   chatMembers: typeof chatMembers;
   chats: typeof chats;
+  files: typeof files;
   friends: typeof friends;
   http: typeof http;
   messages: typeof messages;

@@ -1,12 +1,16 @@
 "use client";
-import { SignInButton } from "@clerk/nextjs";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Logo from "@/public/deepchat_logo.svg";
+import { Button } from "../ui/button";
+import { ChevronRightIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const navLinks = ["Features", "Pricing", "Integrations", "Resources", "Enterprise"];
 
 export default function Navbar() {
+	const routers = useRouter();
 	const [scrolled, setScrolled] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [activeLink, setActiveLink] = useState("");
@@ -30,7 +34,9 @@ export default function Navbar() {
 					<div className="w-8 h-8 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
 						<Image src={Logo} alt="logo" className="" />
 					</div>
-					<span className="text-lg font-bold tracking-tight font-syne">DeepChat</span>
+					<span className="text-background text-lg font-bold tracking-tight font-syne">
+						DeepChat
+					</span>
 				</a>
 
 				{/* Desktop Nav Links */}
@@ -41,7 +47,7 @@ export default function Navbar() {
 							href="#"
 							onClick={() => setActiveLink(link)}
 							className={`nav-link text-sm font-medium transition-colors duration-200 ${
-								activeLink === link ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
+								activeLink === link ? "text-background" : "text-gray-300 hover:text-background"
 							}`}>
 							{link}
 						</a>
@@ -50,11 +56,20 @@ export default function Navbar() {
 
 				{/* CTA Buttons */}
 				<div className="hidden md:flex items-center gap-3">
-					<SignInButton>
-						<button className="btn-primary bg-background px-4 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 px-2 cursor-pointer">
-							Sign In
-						</button>
-					</SignInButton>
+					<Show when={"signed-out"}>
+						<SignInButton>
+							<button className="btn-primary bg-background px-4 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">
+								Sign In
+							</button>
+						</SignInButton>
+					</Show>
+					<Show when={"signed-in"}>
+						<UserButton />
+						<Button variant="secondary" onClick={() => routers.push("/chat")}>
+							<p>Chat</p>
+							<ChevronRightIcon className="ml-2" />
+						</Button>
+					</Show>
 				</div>
 
 				{/* Mobile Menu Toggle */}
@@ -63,13 +78,13 @@ export default function Navbar() {
 					onClick={() => setMenuOpen(!menuOpen)}
 					aria-label="Toggle menu">
 					<span
-						className={`block h-0.5 w-6 bg-gray-700 rounded transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
+						className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
 					/>
 					<span
-						className={`block h-0.5 w-6 bg-gray-700 rounded transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
+						className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
 					/>
 					<span
-						className={`block h-0.5 w-6 bg-gray-700 rounded transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+						className={`block h-0.5 w-6 bg-gray-200 rounded transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
 					/>
 				</button>
 			</div>
@@ -89,16 +104,20 @@ export default function Navbar() {
 						</a>
 					))}
 					<div className="flex gap-3 pt-2 border-t border-gray-100">
-						<SignInButton>
-							<div className="btn-outline px-4 py-2 ml-auto text-sm font-medium  cursor-pointer">
-								Sign in
-							</div>
-						</SignInButton>
-						{/* <SignInButton>
-							<div className="btn-primary text-sm px-4 py-2 ml-auto text-sm font-medium text-gray-200 cursor-pointer">
-								Free Trial
-							</div>
-						</SignInButton> */}
+						<Show when={"signed-out"}>
+							<SignInButton>
+								<button className="btn-primary bg-background px-4 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">
+									Sign In
+								</button>
+							</SignInButton>
+						</Show>
+						<Show when={"signed-in"}>
+							<UserButton />
+							<Button variant="secondary">
+								<p>Chat</p>
+								<ChevronRightIcon className="ml-2" />
+							</Button>
+						</Show>
 					</div>
 				</div>
 			</div>
