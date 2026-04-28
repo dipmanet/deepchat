@@ -160,7 +160,7 @@ export function SelectState({ chats }: { chats: ChatType[] }) {
 				{lastChat && <ContinueCard chat={lastChat} />}
 
 				{/* Recent list */}
-				{recentChats.length > 0 && <RecentChats chats={recentChats} />}
+				{recentChats.length > 0 && <RecentChats chats={recentChats as unknown as ChatItemType[]} />}
 
 				{/* Divider */}
 				<div className="flex items-center gap-3 my-1">

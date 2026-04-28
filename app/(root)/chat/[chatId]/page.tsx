@@ -8,6 +8,7 @@ import ChatBody from "@/components/shared/main/ChatBody";
 import ChatInput from "@/components/shared/main/ChatInput";
 import { useEffect } from "react";
 import { useChatStore } from "@/lib/store";
+import { ChatType } from "@/lib/types";
 
 const ChatPage = () => {
 	const params = useParams();
@@ -25,7 +26,7 @@ const ChatPage = () => {
 
 	return (
 		<div className="w-full h-full flex flex-col justify-between">
-			<Header />
+			{chat ? <Header currentChat={chat as unknown as ChatType} /> : null}
 			{chatId ? <ChatBody chatId={chatId} /> : null}
 			{chatId ? <ChatInput chatId={chatId} /> : null}
 		</div>

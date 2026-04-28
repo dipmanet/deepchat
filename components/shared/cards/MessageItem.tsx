@@ -23,15 +23,25 @@ function getFileInfo(filename?: string) {
 }
 
 const MessageItem = ({ message }: { message: MessageType }) => {
-	const { sender, content, type, attachmentUrl, attachmentName, attachmentSize, self, read } =
-		message;
+	const { sender, content, type, attachmentUrl, self } = message;
+	const attachmentName = "";
+	const attachmentSize = "";
+	const read = false;
 
 	const fileInfo = getFileInfo(attachmentName);
 
 	const selfBubbleClass = "text-primary";
 	const otherBubbleClass = "text-gray-100";
 
-	return type !== "system" ? (
+	return type === "system" ? (
+		<div className="w-full flex items-center justify-center gap-0.5 px-1">
+			{/* System events */}
+			<span className="text-[10px] text-secondary-foreground">
+				{formatTime(message._creationTime)}
+			</span>
+			<p className="text-[14px] leading-[1.45] pr-14 whitespace-pre-wrap break-words">{content}</p>
+		</div>
+	) : (
 		<div
 			className={cn(
 				"flex gap-2.5 items-end w-full px-4 py-0.5",
@@ -146,22 +156,7 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 							))}
 					</div>
 				)}
-				{type === "system" && (
-					<div className="w-full flex items-center justify-center gap-0.5 px-1">
-						<span className="text-[10px] text-gray-400">{formatTime(message._creationTime)}</span>
-						<p className="text-[14px] leading-[1.45] pr-14 whitespace-pre-wrap break-words">
-							{content}
-						</p>
-					</div>
-				)}
 			</div>
-		</div>
-	) : (
-		<div className="w-full flex items-center justify-center gap-0.5 px-1">
-			<span className="text-[10px] text-secondary-foreground">
-				{formatTime(message._creationTime)}
-			</span>
-			<p className="text-[14px] leading-[1.45] pr-14 whitespace-pre-wrap break-words">{content}</p>
 		</div>
 	);
 };

@@ -11,7 +11,6 @@ import { useChatStore } from "@/lib/store";
 import { ChatType } from "@/lib/types";
 import { EmptyState, SelectState } from "./DefaultChatbar";
 
-
 // ─── Main page ─────────────────────────────────────────────────────────────
 
 const ChatPage = () => {
@@ -30,7 +29,11 @@ const ChatPage = () => {
 	}, [chat]);
 
 	if (!chatId) {
-		return chats.length === 0 ? <EmptyState /> : <SelectState chats={chats} />;
+		return chats.length === 0 ? (
+			<EmptyState />
+		) : (
+			<SelectState chats={chats as unknown as ChatType[]} />
+		);
 	}
 
 	return (
