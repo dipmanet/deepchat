@@ -9,6 +9,7 @@
  */
 
 import type * as _utils from "../_utils.js";
+import type * as calls from "../calls.js";
 import type * as chatMembers from "../chatMembers.js";
 import type * as chats from "../chats.js";
 import type * as files from "../files.js";
@@ -28,6 +29,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   _utils: typeof _utils;
+  calls: typeof calls;
   chatMembers: typeof chatMembers;
   chats: typeof chats;
   files: typeof files;

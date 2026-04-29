@@ -103,4 +103,37 @@ export default defineSchema({
 		status: v.union(v.literal("online"), v.literal("offline")),
 		lastSeen: v.number(),
 	}).index("by_userId", ["userId"]),
+
+	// WebRTC calls
+	calls: defineTable({
+		chatId: v.id("chats"),
+		callerId: v.id("users"),
+		receiverId: v.id("users"),
+		type: v.union(v.literal("audio"), v.literal("video")),
+		status: v.union(
+			v.literal("ringing"),
+			v.literal("accepted"),
+			v.literal("rejected"),
+			v.literal("ended"),
+			v.literal("missed"),
+		),
+		createdAt: v.number(),
+		answeredAt: v.optional(v.number()),
+		endedAt: v.optional(v.number()),
+	})
+		.index("by_receiver_status", ["receiverId", "status"])
+		.index("by_caller", ["callerId"])
+		.index("by_chatId", ["chatId"]),
+
+	callSignals: defineTable({
+		callId: v.id("calls"),
+		senderId: v.id("users"),
+		receiverId: v.id("users"),
+		kind: v.union(v.literal("offer"), v.literal("answer"), v.literal("ice-candidate")),
+		payload: v.string(),
+		createdAt: v.number(),
+	})
+		.index("by_callId", ["callId"])
+		.index("by_receiverId", ["receiverId"])
+		.index("by_call_receiver", ["callId", "receiverId"]),
 });

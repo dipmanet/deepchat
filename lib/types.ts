@@ -67,3 +67,38 @@ export type ChatType = {
 	isGroup: boolean;
 	createdBy: Id<"users">;
 };
+
+export type CallStatus = "ringing" | "accepted" | "rejected" | "ended" | "missed";
+export type CallKind = "audio" | "video";
+export type CallSignalKind = "offer" | "answer" | "ice-candidate";
+
+export type CallType = {
+	_id: Id<"calls">;
+	_creationTime: number;
+	chatId: Id<"chats">;
+	callerId: Id<"users">;
+	receiverId: Id<"users">;
+	type: CallKind;
+	status: CallStatus;
+	createdAt: number;
+	answeredAt?: number;
+	endedAt?: number;
+	caller?: UserType | null;
+	receiver?: UserType | null;
+	chat?: {
+		_id: Id<"chats">;
+		name?: string;
+		isGroup: boolean;
+	} | null;
+};
+
+export type CallSignalType = {
+	_id: Id<"callSignals">;
+	_creationTime: number;
+	callId: Id<"calls">;
+	senderId: Id<"users">;
+	receiverId: Id<"users">;
+	kind: CallSignalKind;
+	payload: string;
+	createdAt: number;
+};
