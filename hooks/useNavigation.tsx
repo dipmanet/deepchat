@@ -20,7 +20,7 @@ const useNavigation = () => {
 	const paths = React.useMemo(
 		() => [
 			{
-				name: "Conversations",
+				name: "Chats",
 				href: "/chat",
 				icon: <MessageSquare />,
 				active: pathname.startsWith("/chat"),

@@ -24,12 +24,7 @@ import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { useState } from "react";
 import { REACTION_EMOJI_OPTIONS } from "@/lib/emojis";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 function getFileInfo(filename?: string, fileType?: string) {
 	const ext = filename?.split(".").pop()?.toLowerCase();
@@ -130,7 +125,11 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 
 		return (
 			<TooltipProvider delayDuration={3000}>
-				<div className={cn("flex flex-wrap items-center gap-1.5 px-1 pt-1", self ? "justify-end" : "")}>
+				<div
+					className={cn(
+						"flex flex-wrap items-center gap-1.5 px-1 pt-1",
+						self ? "justify-end" : "",
+					)}>
 					{message.reactions?.map((reaction) => (
 						<Tooltip key={reaction.reaction}>
 							<TooltipTrigger asChild>
@@ -239,25 +238,20 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 
 		if (type === "image") {
 			return (
-				<div className="relative max-w-80 overflow-hidden rounded-xl rounded-bl-none bg-gray-100">
-					{self ? (
-						<RightTail className={selfBubbleClass} />
-					) : (
-						<LeftTail className={otherBubbleClass} />
-					)}
+				<div className="relative max-w-80 flex items-end gap-2">
+					<div className="h-fit rounded-md bg-black/45 text-white backdrop-blur">
+						{renderFileActions()}
+					</div>
 					<Image
 						src={attachmentUrl}
 						alt={attachmentName}
 						width={320}
 						height={320}
 						unoptimized
-						className="block max-h-80 w-full object-cover"
+						className="block max-w-40 max-h-80 w-full object-cover"
 					/>
-					<div className="absolute right-2 top-2 rounded-md bg-black/45 text-white backdrop-blur">
-						{renderFileActions()}
-					</div>
 				</div>
-			);
+			); 
 		}
 
 		if (type === "video") {

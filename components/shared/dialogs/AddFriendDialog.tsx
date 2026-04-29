@@ -21,12 +21,19 @@ import { useMutationState } from "@/hooks/useMutationState";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { ConvexError } from "convex/values";
+import React from "react";
 
 const addFriendFormSchema = z.object({
 	email: z.email("Please enter a valid email address"),
 });
 
-const AddFriendDialog = () => {
+const AddFriendDialog = ({
+	children,
+	showTooltip = true,
+}: {
+	children?: React.ReactNode;
+	showTooltip?: boolean;
+}) => {
 	const { mutate: createFriendRequst, pending } = useMutationState(api.requests.create);
 
 	const form = useForm<z.infer<typeof addFriendFormSchema>>({
@@ -53,21 +60,25 @@ const AddFriendDialog = () => {
 			<Tooltip>
 				<TooltipTrigger>
 					<DialogTrigger asChild>
-						<div className={buttonVariants({ variant: "outline", size: "icon" })}>
-							<UserPlus />
-						</div>
+						{children ?? (
+							<div className={buttonVariants({ variant: "outline", size: "icon" })}>
+								<UserPlus />
+							</div>
+						)}
 					</DialogTrigger>
 				</TooltipTrigger>
-				<TooltipContent>
-					<p>Add Friend</p>
-				</TooltipContent>
+				{showTooltip && (
+					<TooltipContent>
+						<p>Add friend</p>
+					</TooltipContent>
+				)}
 			</Tooltip>
 
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Send a Friend Request.</DialogTitle>
+					<DialogTitle>Send a friend request</DialogTitle>
 					<DialogDescription>
-						Click to send a friend request to connect with them.
+						Enter their account email. They will appear in your friends list after they accept.
 					</DialogDescription>
 				</DialogHeader>
 				<form {...form} onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
@@ -92,7 +103,7 @@ const AddFriendDialog = () => {
 				</form>
 				<DialogFooter>
 					<Button type="submit" onClick={form.handleSubmit(handleSubmit)}>
-						{pending ? "Sending..." : "Send"}
+						{pending ? "Sending..." : "Send request"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

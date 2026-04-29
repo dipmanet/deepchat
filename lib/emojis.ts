@@ -22,6 +22,21 @@ export const EMOJI_OPTIONS: EmojiOption[] = [
 	{ emoji: "\u{2764}\u{FE0F}", label: "Love" },
 ];
 
+export const STICKER_OPTIONS: EmojiOption[] = [
+	{ emoji: "\u{1F389}", label: "Party" },
+	{ emoji: "\u{1F4AF}", label: "Perfect" },
+	{ emoji: "\u{1F680}", label: "Launch" },
+	{ emoji: "\u{1F31F}", label: "Star" },
+	{ emoji: "\u{1F451}", label: "Crown" },
+	{ emoji: "\u{1F48E}", label: "Gem" },
+	{ emoji: "\u{1F3C6}", label: "Trophy" },
+	{ emoji: "\u{1F381}", label: "Gift" },
+	{ emoji: "\u{1F37F}", label: "Popcorn" },
+	{ emoji: "\u{1F984}", label: "Magic" },
+	{ emoji: "\u{1F308}", label: "Rainbow" },
+	{ emoji: "\u{26A1}", label: "Lightning" },
+];
+
 export const REACTION_EMOJI_OPTIONS: EmojiOption[] = [
 	{ emoji: "\u{1F44D}", label: "Like" },
 	{ emoji: "\u{2764}\u{FE0F}", label: "Love" },

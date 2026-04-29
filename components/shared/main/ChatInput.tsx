@@ -8,11 +8,13 @@ import { toast } from "sonner";
 import z from "zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "@/components/ui/button";
-import { Loader2, Paperclip, SendHorizontal, Smile } from "lucide-react";
+import { Loader2, Paperclip, SendHorizontal, Smile, Sticker } from "lucide-react";
 import { useAction, useMutation } from "convex/react";
 import { useRef, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import EmojiPicker from "@/components/shared/EmojiPicker";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { STICKER_OPTIONS } from "@/lib/emojis";
 
 const chatMessageSchema = z.object({
 	chatId: z.string(),
@@ -132,13 +134,16 @@ const ChatInput = ({ chatId }: Props) => {
 		}
 	};
 
-	const handleEmojiSelect = (emoji: string) => {
+	const handleInlineMediaSelect = (value: string) => {
 		const textarea = textareaRef.current;
 		const currentValue = form.getValues("content") ?? "";
 		const start = textarea?.selectionStart ?? currentValue.length;
 		const end = textarea?.selectionEnd ?? currentValue.length;
-		const nextValue = `${currentValue.slice(0, start)}${emoji}${currentValue.slice(end)}`;
-		const nextCursor = start + emoji.length;
+		const prefix = start > 0 && currentValue[start - 1] !== " " ? " " : "";
+		const suffix = end < currentValue.length && currentValue[end] !== " " ? " " : "";
+		const insert = `${prefix}${value}${suffix}`;
+		const nextValue = `${currentValue.slice(0, start)}${insert}${currentValue.slice(end)}`;
+		const nextCursor = start + prefix.length + value.length;
 
 		form.setValue("content", nextValue, {
 			shouldDirty: true,
@@ -217,7 +222,33 @@ const ChatInput = ({ chatId }: Props) => {
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent align="end" className="w-64 p-2">
-						<EmojiPicker onSelect={handleEmojiSelect} disabled={pendingFile || pendingSend || pendingLook} />
+						<Tabs defaultValue="emoji" className="gap-2">
+							<TabsList className="grid w-full grid-cols-2">
+								<TabsTrigger value="emoji">
+									<Smile className="size-4" />
+									Emoji
+								</TabsTrigger>
+								<TabsTrigger value="stickers">
+									<Sticker className="size-4" />
+									Stickers
+								</TabsTrigger>
+							</TabsList>
+							<TabsContent value="emoji">
+								<EmojiPicker
+									onSelect={handleInlineMediaSelect}
+									disabled={pendingFile || pendingSend || pendingLook}
+								/>
+							</TabsContent>
+							<TabsContent value="stickers">
+								<EmojiPicker
+									options={STICKER_OPTIONS}
+									showTooltips
+									className="grid-cols-4"
+									onSelect={handleInlineMediaSelect}
+									disabled={pendingFile || pendingSend || pendingLook}
+								/>
+							</TabsContent>
+						</Tabs>
 					</PopoverContent>
 				</Popover>
 				<Button disabled={pendingSend || pendingLook || pendingFile} type="submit" className="">

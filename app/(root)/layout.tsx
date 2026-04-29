@@ -18,7 +18,7 @@ const Layout = ({ children }: Props) => {
 	return (
 		<div className="h-screen w-full flex flex-col-reverse lg:flex-row">
 			<Navbar />
-			<div className="h-full w-full flex flex-col lg:flex-row pb-16">
+			<div className="h-full w-full flex flex-col lg:flex-row pb-16 lg:pb-0">
 				<SidebarWrapper>{activeSidebar?.sidebarComponent}</SidebarWrapper>
 				<MainWrapper>
 					<Chatbar />

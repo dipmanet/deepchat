@@ -13,7 +13,7 @@ const ChatHeader = ({ currentChat }: { currentChat: ChatType }) => {
 	const status = currentChat?.isGroup ? groupStatus : userStatus;
 
 	return (
-		<div className="w-full flex items-center justify-between border-b shadow--sm p-4">
+		<div className="w-full flex items-center justify-between border-b shadow-sm p-4">
 			<div className="flex gap-4 items-center">
 				<AppAvatar
 					imageUrl={currentChat?.displayImage || ""}

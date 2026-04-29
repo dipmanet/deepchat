@@ -16,7 +16,7 @@ const DetailsWrapper = ({ children }: Props) => {
 				showSidebarMobile ? "hidden lg:flex" : "",
 				showDetails ? "w-full lg:w-[22vw]" : "w-0 overflow-hidden",
 			)}>
-			<div className="h-full w-full border-r shadow-sm overflow-y-auto bg-backround dark:bg-primary-backround">
+			<div className="h-full w-full border-r shadow-sm overflow-y-auto no-scrollbar bg-backround dark:bg-primary-backround">
 				{children}
 			</div>
 		</main>

@@ -1,26 +1,24 @@
+import { Button } from "@/components/ui/button";
 import { ChatItemType, ChatType } from "@/lib/types";
 import { formatTime } from "@/lib/utils";
-import { MessageSquare, Plus, ArrowRight } from "lucide-react";
+import { ArrowRight, Clock3, MessageSquare, Plus, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import AddChatDialog from "../dialogs/AddChatDialog";
 
-// ─── EmptyState ────────────────────────────────────────────────────────────
 export function EmptyState() {
 	return (
-		<div className="w-full flex flex-col items-center justify-center h-full text-center px-5 py-12 sm:px-10 sm:py-16">
-			{/* Icon */}
-			<div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-muted flex items-center justify-center mb-5 sm:mb-6">
-				<MessageSquare size={22} className="text-muted-foreground" strokeWidth={1.5} />
+		<div className="flex min-h-full w-full flex-col items-center justify-center px-5 py-12 text-center sm:px-10 sm:py-16">
+			<div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-muted/45">
+				<MessageSquare className="size-7 text-muted-foreground" strokeWidth={1.8} />
 			</div>
 
-			<p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] uppercase text-muted-foreground mb-2">
-				No conversations yet
+			<p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+				DeepChat
 			</p>
-			<h2 className="font-serif italic text-2xl sm:text-3xl font-normal mb-2 tracking-tight leading-snug">
-				Start your first chat
-			</h2>
-			<p className="text-sm text-muted-foreground mb-8 max-w-[260px] sm:max-w-xs leading-relaxed">
-				Your conversations will appear here once you get started.
+			<h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Start a conversation</h2>
+			<p className="mb-7 mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+				Create a group chat or choose a friend from your sidebar. Your most useful conversations
+				will stay easy to reach here.
 			</p>
 
 			<NewChatButton />
@@ -28,76 +26,50 @@ export function EmptyState() {
 	);
 }
 
-// ─── ContinueCard ──────────────────────────────────────────────────────────
-
 export function ContinueCard({ chat }: { chat: ChatType }) {
 	const router = useRouter();
+
 	return (
 		<button
+			type="button"
 			onClick={() => router.push(`/chat/${chat._id}`)}
-			className="
-        w-full flex items-center gap-3 sm:gap-4
-        px-4 py-3.5 sm:px-5 sm:py-4
-        rounded-xl border border-border bg-background
-        hover:border-foreground/25 hover:bg-muted/40
-        active:scale-[0.99] active:bg-muted
-        transition-all text-left touch-manipulation
-        group
-      ">
-			{/* Avatar */}
-			<div
-				className="
-        w-8 h-8 sm:w-10 sm:h-10 rounded-full shrink-0
-        bg-blue-100 dark:bg-blue-950
-        flex items-center justify-center
-      ">
-				<MessageSquare size={14} className="text-blue-600 dark:text-blue-400" strokeWidth={1.8} />
+			className="group flex w-full items-center gap-3 rounded-lg border border-border bg-background px-4 py-3.5 text-left transition-colors hover:border-foreground/20 hover:bg-muted/45 active:bg-muted sm:px-5 sm:py-4">
+			<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+				<MessageSquare className="size-4 text-primary" strokeWidth={1.8} />
 			</div>
 
-			{/* Text */}
-			<div className="flex-1 min-w-0">
-				<p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-muted-foreground mb-0.5">
-					Continue last chat
+			<div className="min-w-0 flex-1">
+				<p className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+					Continue
 				</p>
-				<p className="text-sm font-medium truncate leading-snug">{chat?.name ?? "Unknown"}</p>
+				<p className="truncate text-sm font-medium leading-snug">{chat?.name ?? "Unknown"}</p>
 			</div>
 
-			{/* Meta */}
-			<div className="flex items-center gap-1.5 shrink-0">
-				<span className="text-xs text-muted-foreground hidden sm:block"></span>
-				<ArrowRight
-					size={14}
-					className="text-muted-foreground/50 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all"
-				/>
-			</div>
+			<ArrowRight className="size-4 shrink-0 text-muted-foreground/55 transition-transform group-hover:translate-x-0.5 group-hover:text-muted-foreground" />
 		</button>
 	);
 }
 
-// ─── RecentChats ───────────────────────────────────────────────────────────
-
 export function RecentChats({ chats }: { chats: ChatItemType[] }) {
 	const router = useRouter();
+
 	return (
 		<div className="w-full">
-			<p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-muted-foreground mb-1 px-0.5">
+			<p className="mb-2 px-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
 				Recent
 			</p>
-			<div className="rounded-xl border border-border overflow-hidden divide-y divide-border/60">
+			<div className="overflow-hidden rounded-lg border border-border bg-background">
 				{chats.map((chat) => (
 					<button
 						key={chat._id}
+						type="button"
 						onClick={() => router.push(`/chat/${chat._id}`)}
-						className="w-full flex items-center gap-3
-							px-4 py-3 sm:px-5 sm:py-3.5
-							bg-background hover:bg-muted/50 active:bg-muted
-							transition-colors text-left group touch-manipulation
-							">
-						<span className="w-1.5 h-1.5 rounded-full bg-border shrink-0 group-hover:bg-muted-foreground transition-colors" />
-						<span className="flex-1 text-sm text-muted-foreground group-hover:text-foreground truncate transition-colors leading-snug">
+						className="group flex w-full items-center gap-3 border-b border-border/60 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-muted/45 active:bg-muted sm:px-5 sm:py-3.5">
+						<Clock3 className="size-4 shrink-0 text-muted-foreground/55 group-hover:text-muted-foreground" />
+						<span className="flex-1 truncate text-sm text-muted-foreground transition-colors group-hover:text-foreground">
 							{chat?.name ?? "Unknown"}
 						</span>
-						<span className="text-xs text-muted-foreground/70 shrink-0 ml-2">
+						<span className="ml-2 shrink-0 text-xs text-muted-foreground/70">
 							{formatTime(chat.updatedAt)}
 						</span>
 					</button>
@@ -107,69 +79,49 @@ export function RecentChats({ chats }: { chats: ChatItemType[] }) {
 	);
 }
 
-// ─── NewChatButton ─────────────────────────────────────────────────────────
-
 export function NewChatButton() {
 	return (
 		<AddChatDialog showTooltip={false}>
-			<div
-				className="w-full flex items-center justify-center gap-2
-				sm:w-auto sm:px-5
-				px-4 py-3 sm:py-2.5
-				rounded-xl border border-border bg-background
-				hover:bg-muted hover:border-foreground/25
-				active:scale-[0.98]
-				transition-all text-sm font-medium touch-manipulation
-				">
-				<Plus size={14} />
+			<Button className="h-11 w-full gap-2 sm:w-auto sm:px-5">
+				<Plus className="size-4" />
 				New conversation
-			</div>
+			</Button>
 		</AddChatDialog>
 	);
 }
-
-// ─── SelectState ───────────────────────────────────────────────────────────
 
 export function SelectState({ chats }: { chats: ChatType[] }) {
 	const lastChat = chats[0] ?? null;
 	const recentChats = chats.slice(1, 6);
 
 	return (
-		<div
-			className="
-      w-full h-full overflow-y-auto
-      flex flex-col items-center justify-center
-      px-4 py-10
-      sm:px-8 sm:py-12
-      lg:px-12
-    ">
-			{/* Content card — constrained width on large screens */}
-			<div className="w-full max-w-sm sm:max-w-lg flex flex-col gap-4 sm:gap-5">
-				{/* Heading */}
-				<div className="text-center mb-1">
-					<p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-muted-foreground mb-2">
+		<div className="flex h-full w-full flex-col items-center px-4 py-10 sm:px-8 sm:py-12 lg:px-12">
+			<div className="flex w-full h-full max-w-lg flex-col gap-5">
+				<div className="mb-1 text-center">
+					<div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-muted/45">
+						<Sparkles className="size-6 text-muted-foreground" strokeWidth={1.8} />
+					</div>
+					<p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
 						Conversations
 					</p>
-					<h2 className="font-serif italic text-2xl sm:text-3xl font-normal tracking-tight leading-snug">
-						Select a conversation
+					<h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+						Pick up where you left off
 					</h2>
-					<p className="text-sm text-muted-foreground mt-1.5">Or pick up where you left off</p>
+					<p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+						Choose a recent chat, or start a fresh conversation with your friends.
+					</p>
 				</div>
 
-				{/* Continue card */}
 				{lastChat && <ContinueCard chat={lastChat} />}
 
-				{/* Recent list */}
 				{recentChats.length > 0 && <RecentChats chats={recentChats as unknown as ChatItemType[]} />}
 
-				{/* Divider */}
-				<div className="flex items-center gap-3 my-1">
-					<span className="flex-1 h-px bg-border/60" />
+				<div className="my-1 flex items-center gap-3">
+					<span className="h-px flex-1 bg-border/60" />
 					<span className="text-xs text-muted-foreground/50">or</span>
-					<span className="flex-1 h-px bg-border/60" />
+					<span className="h-px flex-1 bg-border/60" />
 				</div>
 
-				{/* New chat */}
 				<NewChatButton />
 			</div>
 		</div>
