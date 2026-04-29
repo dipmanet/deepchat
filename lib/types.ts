@@ -17,7 +17,7 @@ export type MessageType = {
 	content?: string | undefined;
 	attachmentUrl?: string | undefined;
 	editedAt?: number | undefined;
-	type: "audio" | "video" | "image" | "text" | "file" | "system";
+	type: "audio" | "video" | "image" | "text" | "file" | "system" | "look";
 	createdAt: number;
 	chatId: Id<"chats">;
 	senderId: Id<"users">;

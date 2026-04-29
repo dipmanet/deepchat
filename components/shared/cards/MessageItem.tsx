@@ -1,6 +1,6 @@
 import { cn, formatTime } from "@/lib/utils";
 import Image from "next/image";
-import { File, FileSpreadsheet, FileText, Check, CheckCheck } from "lucide-react";
+import { File, FileSpreadsheet, FileText, Check, CheckCheck, Sparkles } from "lucide-react";
 import { LeftTail, RightTail } from "@/assets/tails";
 import AppAvatar from "./AppAvatar";
 import { MessageType } from "@/lib/types";
@@ -33,7 +33,8 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 	const selfBubbleClass = "text-primary";
 	const otherBubbleClass = "text-gray-100";
 
-	return type === "system" ? (
+	if (type === "system") {
+		return (
 		<div className="w-full flex items-center justify-center gap-0.5 px-1">
 			{/* System events */}
 			<span className="text-[10px] text-secondary-foreground">
@@ -41,7 +42,29 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 			</span>
 			<p className="text-[14px] leading-[1.45] pr-14 whitespace-pre-wrap break-words">{content}</p>
 		</div>
-	) : (
+		);
+	}
+
+	if (type === "look") {
+		return (
+			<div className="w-full flex justify-center px-4 py-1.5">
+				<div className="relative max-w-[78%] rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-amber-950 shadow-sm">
+					<div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-amber-700">
+						<Sparkles className="size-3.5" />
+						<span>Look</span>
+					</div>
+					<p className="whitespace-pre-wrap break-words pr-12 text-[14px] leading-[1.45]">
+						{content}
+					</p>
+					<span className="absolute bottom-2 right-3 text-[10px] leading-none text-amber-600">
+						{formatTime(message._creationTime)}
+					</span>
+				</div>
+			</div>
+		);
+	}
+
+	return (
 		<div
 			className={cn(
 				"flex gap-2.5 items-end w-full px-4 py-0.5",

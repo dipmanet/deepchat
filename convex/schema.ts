@@ -67,6 +67,7 @@ export default defineSchema({
 			v.literal("video"),
 			v.literal("audio"),
 			v.literal("system"),
+			v.literal("look"),
 		),
 		storageId: v.optional(v.id("_storage")),
 		fileName: v.optional(v.string()),

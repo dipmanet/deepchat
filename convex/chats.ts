@@ -3,20 +3,14 @@
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getUserByClerkId } from "./_utils";
+import { requireUserQuery } from "./user";
 
 export const getAll = query({
 	args: {
 		search: v.optional(v.string()),
 	},
 	handler: async (ctx, args) => {
-		const identity = await ctx.auth.getUserIdentity();
-		if (!identity) {
-			throw new ConvexError("Unauthorized");
-		}
-		const currentUser = await getUserByClerkId({ ctx, clerkId: identity.subject });
-		if (!currentUser) {
-			throw new ConvexError("User not found");
-		}
+		const currentUser = await requireUserQuery(ctx);
 
 		// 1. Get all memberships
 		const memberships = await ctx.db
@@ -94,14 +88,7 @@ export const get = query({
 		id: v.id("chats"),
 	},
 	handler: async (ctx, args) => {
-		const identity = await ctx.auth.getUserIdentity();
-		if (!identity) {
-			throw new ConvexError("Unauthorized");
-		}
-		const currentUser = await getUserByClerkId({ ctx, clerkId: identity.subject });
-		if (!currentUser) {
-			throw new ConvexError("User not found");
-		}
+		const currentUser = await requireUserQuery(ctx);
 
 		// Get chat
 		const chat = await ctx.db.get(args.id);
@@ -166,18 +153,7 @@ export const create = mutation({
 		name: v.optional(v.string()), // for group chats
 	},
 	handler: async (ctx, args) => {
-		const identity = await ctx.auth.getUserIdentity();
-		if (!identity) {
-			throw new ConvexError("Unauthorized");
-		}
-
-		const currentUser = await getUserByClerkId({
-			ctx,
-			clerkId: identity.subject,
-		});
-		if (!currentUser) {
-			throw new ConvexError("User not found");
-		}
+		const currentUser = await requireUserQuery(ctx);
 
 		// 1. Get users from emails
 		const users = await Promise.all(
@@ -301,15 +277,7 @@ export const remove = mutation({
 		id: v.id("chats"),
 	},
 	handler: async (ctx, args) => {
-		const identity = await ctx.auth.getUserIdentity();
-		if (!identity) {
-			throw new ConvexError("Unauthorized");
-		}
-
-		const currentUser = await getUserByClerkId({ ctx, clerkId: identity.subject });
-		if (!currentUser) {
-			throw new ConvexError("User not found");
-		}
+		const currentUser = await requireUserQuery(ctx);
 
 		// Get chat
 		const chat = await ctx.db.get(args.id);

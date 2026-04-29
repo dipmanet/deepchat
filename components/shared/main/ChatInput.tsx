@@ -3,12 +3,14 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutationState } from "@/hooks/useMutationState";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, Form, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "@/components/ui/button";
 import { SendHorizontal } from "lucide-react";
+import { useAction } from "convex/react";
+import { useState } from "react";
 
 const chatMessageSchema = z.object({
 	chatId: z.string(),
@@ -28,6 +30,8 @@ type Props = {
 
 const ChatInput = ({ chatId }: Props) => {
 	const { mutate: sendMessage, pending: pendingSend } = useMutationState(api.messages.create);
+	const runLookCommand = useAction(api.messages.look);
+	const [pendingLook, setPendingLook] = useState(false);
 
 	const form = useForm<z.infer<typeof chatMessageSchema>>({
 		resolver: zodResolver(chatMessageSchema),
@@ -39,7 +43,23 @@ const ChatInput = ({ chatId }: Props) => {
 	});
 
 	const handleSubmit = async (data: z.infer<typeof chatMessageSchema>) => {
-		await sendMessage({ ...data })
+		const isLookCommand = /^\/look(?:\s+|$)/i.test(data.content.trim());
+		const submitMessage = isLookCommand
+			? async () => {
+					setPendingLook(true);
+					try {
+						await runLookCommand({
+							chatId: data.chatId as Id<"chats">,
+							content: data.content,
+							type: "text",
+						});
+					} finally {
+						setPendingLook(false);
+					}
+				}
+			: () => sendMessage({ ...data });
+
+		await submitMessage()
 			.then(() => {
 				form.reset();
 			})
@@ -87,7 +107,7 @@ const ChatInput = ({ chatId }: Props) => {
 						)}
 					/>
 				</FieldGroup>
-				<Button disabled={pendingSend} type="submit" className="">
+				<Button disabled={pendingSend || pendingLook} type="submit" className="">
 					<SendHorizontal />
 				</Button>
 			</form>
