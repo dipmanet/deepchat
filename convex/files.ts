@@ -78,6 +78,8 @@ export const sendFile = mutation({
 			}
 		}
 
+		const attachmentUrl = await ctx.storage.getUrl(args.storageId);
+
 		// 4. Save message
 		const messageId = await ctx.db.insert("messages", {
 			chatId: args.chatId,
@@ -87,6 +89,7 @@ export const sendFile = mutation({
 			storageId: args.storageId,
 			fileName: args.fileName,
 			fileType: args.fileType,
+			attachmentUrl: attachmentUrl ?? undefined,
 			createdAt: Date.now(),
 			deleted: false,
 		});
@@ -109,21 +112,41 @@ export const getMessagesWithFiles = query({
 		chatId: v.id("chats"),
 	},
 	handler: async (ctx, args) => {
+		const identity = await ctx.auth.getUserIdentity();
+		if (!identity) throw new ConvexError("Unauthorized");
+
+		const user = await getUserByClerkId({
+			ctx,
+			clerkId: identity.subject,
+		});
+		if (!user) throw new ConvexError("User not found");
+
+		const membership = await ctx.db
+			.query("chatMembers")
+			.withIndex("by_chat_user", (q) => q.eq("chatId", args.chatId).eq("userId", user._id))
+			.unique();
+
+		if (!membership) {
+			throw new ConvexError("Not a member of this chat");
+		}
+
 		const messages = await ctx.db
 			.query("messages")
-			.withIndex("by_chatId", (q) => q.eq("chatId", args.chatId))
+			.withIndex("by_chat_createdAt", (q) => q.eq("chatId", args.chatId))
+			.order("desc")
 			.collect();
 
 		return Promise.all(
 			messages.map(async (msg) => {
 				let fileUrl = null;
 
-				if (msg.storageId) {
+				if (!msg.deleted && msg.storageId) {
 					fileUrl = await ctx.storage.getUrl(msg.storageId);
 				}
 
 				return {
 					...msg,
+					attachmentUrl: msg.deleted ? undefined : msg.attachmentUrl,
 					fileUrl,
 				};
 			}),
@@ -145,6 +168,16 @@ export const deleteFile = mutation({
 		const message = await ctx.db.get(args.messageId);
 		if (!message) throw new ConvexError("Message not found");
 
+		const user = await getUserByClerkId({
+			ctx,
+			clerkId: identity.subject,
+		});
+		if (!user) throw new ConvexError("User not found");
+
+		if (message.senderId !== user._id) {
+			throw new ConvexError("Only the sender can delete this file");
+		}
+
 		// delete storage file
 		if (message.storageId) {
 			await ctx.storage.delete(message.storageId);
@@ -154,6 +187,8 @@ export const deleteFile = mutation({
 		await ctx.db.patch(message._id, {
 			deleted: true,
 			content: "File deleted",
+			attachmentUrl: undefined,
+			storageId: undefined,
 		});
 	},
 });

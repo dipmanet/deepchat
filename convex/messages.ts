@@ -40,8 +40,39 @@ export const getAll = query({
 		const messagesWithSender = await Promise.all(
 			messages.map(async (msg) => {
 				const sender = await ctx.db.get(msg.senderId);
+				const attachmentUrl = msg.deleted
+					? undefined
+					: msg.storageId
+						? await ctx.storage.getUrl(msg.storageId)
+						: msg.attachmentUrl;
+				const reactions =
+					msg.deleted || msg.type === "system"
+						? []
+						: await ctx.db
+								.query("reactions")
+								.withIndex("by_messageId", (q) => q.eq("messageId", msg._id))
+								.collect();
+				const groupedReactions = new Map<
+					string,
+					{ reaction: string; count: number; reactedByMe: boolean }
+				>();
+
+				for (const reaction of reactions) {
+					const current = groupedReactions.get(reaction.reaction) ?? {
+						reaction: reaction.reaction,
+						count: 0,
+						reactedByMe: false,
+					};
+
+					current.count += 1;
+					current.reactedByMe = current.reactedByMe || reaction.userId === currentUser._id;
+					groupedReactions.set(reaction.reaction, current);
+				}
+
 				return {
 					...msg,
+					attachmentUrl: attachmentUrl ?? undefined,
+					reactions: Array.from(groupedReactions.values()),
 					sender,
 					self: msg.senderId === currentUser._id,
 				};
@@ -256,8 +287,10 @@ export const look = action({
 				throw new Error(errorText || `OpenAI request failed with ${response.status}`);
 			}
 
-			const data = await response.json();
-			const output = data.choices?.map((choice: any) => choice.message?.content).join("\n\n");
+			const data = (await response.json()) as {
+				choices?: Array<{ message?: { content?: string } }>;
+			};
+			const output = data.choices?.map((choice) => choice.message?.content).join("\n\n");
 
 			await ctx.runMutation(internal.messages.saveLookResponse, {
 				chatId: args.chatId,

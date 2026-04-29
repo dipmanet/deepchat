@@ -16,12 +16,20 @@ export type MessageType = {
 	_creationTime: number;
 	content?: string | undefined;
 	attachmentUrl?: string | undefined;
+	storageId?: Id<"_storage"> | undefined;
+	fileName?: string | undefined;
+	fileType?: string | undefined;
 	editedAt?: number | undefined;
 	type: "audio" | "video" | "image" | "text" | "file" | "system" | "look";
 	createdAt: number;
 	chatId: Id<"chats">;
 	senderId: Id<"users">;
 	deleted: boolean;
+	reactions?: Array<{
+		reaction: string;
+		count: number;
+		reactedByMe: boolean;
+	}>;
 };
 
 export type MemberType = {
