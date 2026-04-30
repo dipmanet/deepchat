@@ -251,7 +251,7 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 						className="block max-w-40 max-h-80 w-full object-cover"
 					/>
 				</div>
-			); 
+			);
 		}
 
 		if (type === "video") {
@@ -321,12 +321,14 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 						<Sparkles className="size-3.5" />
 						<span>Look</span>
 					</div>
-					<p className="whitespace-pre-wrap break-words pr-12 text-[14px] leading-[1.45]">
+					<p className="whitespace-pre-wrap break-words px-2 pb-1 text-[14px] leading-[1.45]">
 						{content}
 					</p>
-					<span className="absolute bottom-2 right-3 text-[10px] leading-none text-amber-600">
-						{formatTime(message._creationTime)}
-					</span>
+					<div className="w-full flex justify-end">
+						<span className="text-[10px] leading-none text-amber-600">
+							{formatTime(message._creationTime)}
+						</span>
+					</div>
 				</div>
 				{renderReactionControls()}
 			</div>
@@ -387,13 +389,13 @@ const MessageItem = ({ message }: { message: MessageType }) => {
 								<LeftTail className={otherBubbleClass} />
 							)}
 
-							<p className="whitespace-pre-wrap break-words pr-14 text-[14px] leading-[1.45]">
+							<p className="whitespace-pre-wrap break-words text-[14px] leading-[1.45] px-2 pb-1">
 								{content}
 							</p>
 
 							<div
 								className={cn(
-									"absolute bottom-2 right-3 flex items-center gap-0.5",
+									"flex justify-end items-center gap-0.5",
 									self ? "text-blue-100" : "text-gray-400",
 								)}>
 								<span className="text-[10px] leading-none">

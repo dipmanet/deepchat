@@ -14,7 +14,7 @@ const DetailsWrapper = ({ children }: Props) => {
 			className={cn(
 				"h-full transition-all duration-300",
 				showSidebarMobile ? "hidden lg:flex" : "",
-				showDetails ? "w-full lg:w-[22vw]" : "w-0 overflow-hidden",
+				showDetails ? "w-full lg:w-[22vw] lg:min-w-[22vw]" : "w-0 overflow-hidden",
 			)}>
 			<div className="h-full w-full border-r shadow-sm overflow-y-auto no-scrollbar bg-backround dark:bg-primary-backround">
 				{children}

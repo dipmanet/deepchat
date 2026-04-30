@@ -14,7 +14,7 @@ const MainWrapper = ({ children }: Props) => {
 				"h-full flex grow transition-transform",
 				showSidebarMobile || showDetails ? "hidden lg:flex" : "",
 			)}>
-			<div className="h-[calc(100vh-var(--spacing)*16)] lg:h-screen w-full border-r shadow-sm grow flex overflow-x-clip overflow-y-auto bg-background dark:bg-secondary-background">
+			<div className="h-[calc(100vh-var(--spacing)*16)] lg:h-screen w-full border-r shadow-sm flex-1 grow flex overflow-x-clip overflow-y-auto bg-background dark:bg-secondary-background">
 				{children}
 			</div>
 		</main>
